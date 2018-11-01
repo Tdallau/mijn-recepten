@@ -48,7 +48,7 @@ namespace mijn_recepten.Models
             string role = jwttoken.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault()?.Value;
             string nbf = jwttoken.Claims.Where(c => c.Type == JwtRegisteredClaimNames.Nbf).FirstOrDefault()?.Value;
             string exp = jwttoken.Claims.Where(c => c.Type == JwtRegisteredClaimNames.Exp).FirstOrDefault()?.Value;
-            return new UserData {Name=name, Id=id, Email=email, Role=role, Nbf=nbf, Exp=exp, Password="null"};
+            return new UserData {Name=name, Id=id, Email=email, Role=role, Nbf=nbf, Exp=exp, Password=null};
         }
 
     }

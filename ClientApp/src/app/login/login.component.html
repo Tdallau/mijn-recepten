@@ -11,11 +11,8 @@
                 [type]="isPwVisible ? 'text' : 'password'" (dblclick)="isPwVisible = mainService.swicthIfWithCtrlShift($event, isPwVisible)"
                 (keyup.enter)="authService.doLogin()">
             </div>
-            <div class="checkbox login-input">
-              <label>
-                <input name="remember" type="checkbox" [(ngModel)]="authService.loginData.KeepLogin"> Logingegevens
-                onthouden
-              </label>
+            <div class="center">
+              <a class="nav-link text-dark" (click)="goToRegister()">Registreer</a>
             </div>
             <button class="btn btn-primary btn-block" (click)="authService.doLogin()">Login</button>
           </form>

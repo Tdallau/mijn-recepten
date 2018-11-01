@@ -13,6 +13,9 @@
                 <input class="form-control login-input" placeholder="Wachtwoord" name="Password" [(ngModel)]="authService.registerData.passwordHash"
                   [type]="isPwVisible ? 'text' : 'password'" (keyup.enter)="authService.doRegister()">
               </div>
+              <div class="center">
+                <a class="nav-link text-dark" (click)="goToLogin()">login</a>
+              </div>
               <button class="btn btn-primary btn-block" (click)="authService.doRegister()">Login</button>
             </form>
           </div>
