@@ -1,0 +1,23 @@
+<div class="content">
+  <div class="container-fluid h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <div class="card border-primary login-panel">
+          <div class="card-body">
+            <form accept-charset="UTF-8" role="form">
+              <div class="form-group">
+                <input class="form-control login-input" placeholder="Loginnaam" name="naam" [(ngModel)]="authService.registerData.name"
+                  type="text" (keyup.enter)="keytab($event)">
+                <input class="form-control login-input" placeholder="Email" name="email" [(ngModel)]="authService.registerData.email"
+                  type="email" (keyup.enter)="keytab($event)">
+                <input class="form-control login-input" placeholder="Wachtwoord" name="Password" [(ngModel)]="authService.registerData.passwordHash"
+                  [type]="isPwVisible ? 'text' : 'password'" (keyup.enter)="authService.doRegister()">
+              </div>
+              <button class="btn btn-primary btn-block" (click)="authService.doRegister()">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

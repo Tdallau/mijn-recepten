@@ -1,0 +1,28 @@
+<div class="content"><div class="container-fluid h-100" >
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+      <div class="card border-primary login-panel">
+        <div class="card-body">
+          <form accept-charset="UTF-8" role="form">
+            <div class="form-group">
+              <input class="form-control login-input"  placeholder="Loginnaam" name="Username"
+                [(ngModel)]="authService.loginData.Username" type="text" (keyup.enter)="keytab($event)">
+              <input class="form-control login-input" placeholder="Wachtwoord" name="Password" [(ngModel)]="authService.loginData.Password"
+                [type]="isPwVisible ? 'text' : 'password'" (dblclick)="isPwVisible = mainService.swicthIfWithCtrlShift($event, isPwVisible)"
+                (keyup.enter)="authService.doLogin()">
+            </div>
+            <div class="checkbox login-input">
+              <label>
+                <input name="remember" type="checkbox" [(ngModel)]="authService.loginData.KeepLogin"> Logingegevens
+                onthouden
+              </label>
+            </div>
+            <button class="btn btn-primary btn-block" (click)="authService.doLogin()">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

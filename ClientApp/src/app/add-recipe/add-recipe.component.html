@@ -1,0 +1,61 @@
+<div class="container">
+  <h1>Recept toevoegen</h1>
+  <form (ngSubmit)="onSubmit(recipeForm)" #recipeForm="ngForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" required [(ngModel)]="recipe.name" name="name" #name="ngModel">
+      <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="videoId">videoId</label>
+      <input type="text" class="form-control" id="videoId" required [(ngModel)]="recipe.videoId" name="videoId"
+        #videoId="ngModel">
+      <div [hidden]="videoId.valid || videoId.pristine" class="alert alert-danger">
+        videoId is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="requester">Aanvrager</label>
+      <input type="text" class="form-control" id="requester" required [(ngModel)]="recipe.requester" name="requester"
+        #requester="ngModel">
+      <div [hidden]="requester.valid || requester.pristine" class="alert alert-danger">
+        requester is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="custom-file">
+        <input type="file" (change)="fileUploadImg($event.target.files)" class="custom-file-input" id="customFile">
+        <label class="custom-file-label" for="customFile">Ingredienten</label>
+        <div class="alert alert-info">
+          upload een plaatje waar alle Ingredienten op staan!
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="persons">Personen</label>
+      <input type="text" class="form-control" id="persons" required [(ngModel)]="recipe.persons" name="persons"
+        #persons="ngModel">
+      <div [hidden]="persons.valid || persons.pristine" class="alert alert-danger">
+        persons is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="custom-file">
+        <input type="file" (change)="fileUploadTxt($event.target.files)" class="custom-file-input" id="customFile">
+        <label class="custom-file-label" for="customFile">linksjes</label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!recipeForm.form.valid">Upload</button>
+
+  </form>
+</div>
+
+<ngx-spinner type="ball-spin-clockwise" size="large"></ngx-spinner>

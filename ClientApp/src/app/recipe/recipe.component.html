@@ -1,0 +1,21 @@
+<p *ngIf="!recipe"><em>Loading...</em></p>
+
+<div *ngIf="recipe">
+  <h3>
+    {{recipe.name}}
+  </h3>
+  <div class="resp-container">
+    <iframe class="resp-iframe" [src]="url | safe" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+  </div>
+  <p>{{recipe.persons}}</p>
+  <b>Ingredienten: </b>
+  <div *ngFor="let ingredient of recipe.ingredients">
+    {{ingredient.ingredient}}
+  </div>
+  <div *ngIf="recipe.links.length != 0" class="links">
+    <b>Linkjes: </b>
+    <div *ngFor="let link of recipe.links">
+      {{link.link}}
+    </div>
+  </div>
+</div>
