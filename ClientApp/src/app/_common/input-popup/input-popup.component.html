@@ -1,0 +1,32 @@
+<div class="modal-body">
+  <div class="container">
+    <h1>{{recipe.name}}</h1>
+    <form>
+      <div class="form-group">
+        <label for="name">Naam</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="recipe.name" required name="name" #name="ngModel">
+      </div>
+ 
+      <div class="form-group">
+        <label for="videoId">videoId</label>
+        <input type="text" class="form-control" id="videoId" required [(ngModel)]="recipe.videoId" name="videoId"
+        #videoId="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="requester">Aanvrager</label>
+        <input type="text" class="form-control" id="requester" required [(ngModel)]="recipe.requester" name="requester"
+        #requester="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="persons">Personen</label>
+        <input type="text" class="form-control" id="persons" required [(ngModel)]="recipe.persons" name="persons"
+        #persons="ngModel">
+      </div>
+ 
+      <button type="submit" class="btn btn-success" (click)="updateRecipe()">Submit</button>
+ 
+    </form>
+</div>
+</div>

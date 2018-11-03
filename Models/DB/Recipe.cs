@@ -9,6 +9,5 @@ namespace mijn_recepten.Models.DB {
         public string persons {get; set;}
         public List<Link> links {get; set;}
         public List<Ingredient> ingredients {get; set;}
-
     }
 }

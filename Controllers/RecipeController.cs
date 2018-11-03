@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using mijn_recepten.Models.DB;
 using Microsoft.AspNetCore.Authorization;
+using mijn_recepten.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace mijn_recepten.Controllers
 {
@@ -23,10 +26,18 @@ namespace mijn_recepten.Controllers
         }
         // GET api/recipe
         [HttpGet]
-        public ActionResult<IEnumerable<Recipe>> Get()
+        public ActionResult<IEnumerable<ResponseRecipe>> Get()
         {
+            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var userToken = token.Split(' ')[1];
+            var jwttoken = new JwtSecurityToken(userToken);
+            var userId = Int32.Parse(jwttoken.Claims.Where(x=> x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
             var query = from recipes in this.__context.recipes
-                        select new {recipes.id, recipes.name, recipes.requester, recipes.persons, recipes.ingredients, recipes.links, recipes.videoId};
+                        join favorites in this.__context.favorites on recipes.id equals favorites.recipeId into rf
+                        join favorite in this.__context.favorites on userId equals favorite.userId into fu
+                        select new ResponseRecipe{id = recipes.id, name=recipes.name, requester=recipes.requester, videoId=recipes.videoId, persons=recipes.persons, links=recipes.links, ingredients=recipes.ingredients, 
+                                            Favorite=rf.FirstOrDefault() != null && fu.FirstOrDefault() != null ? true : false};
+                        // recipes.id, recipes.name, recipes.requester, recipes.persons, recipes.ingredients, recipes.links, recipes.videoId, 
             return Ok(query.ToList());
         }
 
@@ -60,7 +71,9 @@ namespace mijn_recepten.Controllers
         public IActionResult Put(int id, [FromBody] Recipe UpdatedRecipe)
         {
             if (UpdatedRecipe != null && (UpdatedRecipe.name != null && UpdatedRecipe.name != "") &&
-                                 (UpdatedRecipe.requester != null && UpdatedRecipe.requester != ""))
+               (UpdatedRecipe.requester != null && UpdatedRecipe.requester != "") &&
+               (UpdatedRecipe.videoId != null && UpdatedRecipe.videoId != "") &&
+               (UpdatedRecipe.persons != null && UpdatedRecipe.persons != ""))
             {
 
                 var recipe = (from recipes in this.__context.recipes
@@ -69,6 +82,7 @@ namespace mijn_recepten.Controllers
 
                 recipe.name = UpdatedRecipe.name;
                 recipe.persons = UpdatedRecipe.persons;
+                recipe.videoId = UpdatedRecipe.videoId;
                 recipe.requester = UpdatedRecipe.requester;
 
                 this.__context.Update(recipe);

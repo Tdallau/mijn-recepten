@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
-
+import { ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -19,6 +18,23 @@ import { CustomHttpInterceptor } from './_helpers/custom.http.interceptor';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { FilterPipe } from './_pipes/filter.pipe';
+import { SortPipe } from './_pipes/sort.pipe';
+import { InputPopupComponent } from './_common/input-popup/input-popup.component';
+import { ConfirmPopupComponent } from './_Common/confirm-popup/confirm-popup.component';
+
+library.add(fas, far);
+library.add(faStar);
+library.add(faTrash);
+library.add(faEdit);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +45,10 @@ import { RegisterComponent } from './register/register.component';
     AddRecipeComponent,
     LoginComponent,
     RegisterComponent,
+    InputPopupComponent,
+    ConfirmPopupComponent,
+    FilterPipe,
+    SortPipe,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,16 +57,22 @@ import { RegisterComponent } from './register/register.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'recipe/:id', component: RecipeComponent },
-      { path: 'add/recipe', component: AddRecipeComponent},
-      { path: 'login', component: LoginComponent},
-      { path: 'register', component: RegisterComponent},
-      { path: '**', redirectTo: '/'}
+      { path: 'add/recipe', component: AddRecipeComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: '**', redirectTo: '/' }
     ]),
-    NgxSpinnerModule
+    ModalModule.forRoot(),
+    NgxSpinnerModule,
+    FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    InputPopupComponent,
+    ConfirmPopupComponent
+  ]
 })
 export class AppModule { }

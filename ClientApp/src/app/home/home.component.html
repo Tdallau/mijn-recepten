@@ -3,7 +3,7 @@
 
 <div class="form-group">
   <input type="text" class="form-control" id="search" required [(ngModel)]="term" name="search" #search="ngModel"
-    placeholder="Zoeken" (input)="searchRecipe()">
+    placeholder="Zoeken">
 </div>
 <div class='list-group' *ngIf="recipes">
   <div class="list-group-item active">
@@ -14,21 +14,33 @@
       <div class="col">
         <b>Recept</b>
       </div>
-      <div class="col" *ngIf="user.user.role === 'Admin'">
+      <div class="col col-sm-2" style="text-align:center">
+        <b>Favourite</b>
+      </div>
+      <div class="d-none d-sm-block col-sm-2" *ngIf="user.user.role === 'Admin'" style="text-align:center">
+        <b>Update</b>
+      </div>
+      <div class="d-none d-sm-block col-sm-2" *ngIf="user.user.role === 'Admin'" style="text-align:center">
         <b>verwijder</b>
       </div>
     </div>
   </div>
-  <div class="list-group-item list-group-item-action pointer" *ngFor="let recipe of recipes" (click)="btnClick(recipe);">
+  <div class="list-group-item list-group-item-action pointer" *ngFor="let recipe of recipes | sort: sortFields:trigger | filter: term; let i = index" >
     <div class="row">
-      <div class="d-none d-sm-block col-sm-2">
-        {{recipe.requester}}
+      <div class="d-none d-sm-block col-sm-2" (click)="btnClick(recipe);">
+        {{recipe.requester}} 
       </div>
-      <div class="col">
-        {{recipe.name}}
+      <div class="col" (click)="btnClick(recipe);">
+        {{recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)}}
       </div>
-      <div class="col" *ngIf="user.user.role === 'Admin'">
-        <i (click)="deleteRecipe()" class="nav-link text-dark">X</i>
+      <div class="col col-sm-2" style="text-align:center">
+          <fa-icon [icon]="recipe.favorite ? ['fas','star'] : ['far','star']" (click)="setFavourite(recipe)" size="lg" [style.color] = "recipe.favorite ? 'purple' : ''"></fa-icon>
+      </div>
+      <div class="d-none d-sm-block col-sm-2" *ngIf="user.user.role === 'Admin'" style="text-align:center">
+        <fa-icon [icon]="['fas','edit']" (click)="updateRecipe(recipe)"></fa-icon>
+      </div>
+      <div class="d-none d-sm-block col-sm-2" *ngIf="user.user.role === 'Admin'" style="text-align:center">
+        <fa-icon [icon]="['fas','trash']" (click)="deleteRecipe(recipe.id,i)"></fa-icon>
       </div>
     </div>
   </div>

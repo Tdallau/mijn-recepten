@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { NavbarService } from '../_services/navbar.service';
-import { TouchSequence } from 'selenium-webdriver';
-
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Recipe } from '../_models/common/recipe';
+import { InputPopupComponent } from '../_common/input-popup/input-popup.component';
+import { ConfirmPopupComponent } from '../_Common/confirm-popup/confirm-popup.component';
 
 
 @Component({
@@ -16,14 +18,18 @@ import { TouchSequence } from 'selenium-webdriver';
 export class HomeComponent implements OnInit {
   public user = JSON.parse(localStorage.getItem('currentLogon')) as MijnReceptenLogon;
   public recipes: Recipe[];
-  public backup: Recipe[];
   public term: string;
+  public sortFields = ['-favorite', 'name'];
+  trigger = false;
 
-  constructor(public nav: NavbarService, http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router) {
+  constructor(public nav: NavbarService, private modalService: BsModalService, private http: HttpClient,
+              @Inject('BASE_URL') baseUrl: string, private router: Router) {
     if (this.user === null) { this.router.navigateByUrl('/login'); } else {
-      http.get<Recipe[]>(baseUrl + 'api/recipe').subscribe(result => {
+      this.http.get<Recipe[]>(baseUrl + 'api/recipe').subscribe(result => {
+        result.map(x => {
+          x.name = x.name.toLowerCase();
+        });
         this.recipes = result;
-        this.backup = result;
         // this.spinner.hide();
       });
     }
@@ -33,46 +39,47 @@ export class HomeComponent implements OnInit {
     this.nav.show();
   }
 
-  btnClick = function (recipe: Recipe) {
+  btnClick(recipe: Recipe): void {
     this.router.navigateByUrl(`/recipe/${recipe.id}`);
-    console.log(recipe.id);
-  };
+  }
 
-  deleteRecipe = () => {
+  setFavourite(recipe: Recipe): void {
+    this.trigger = !this.trigger;
+    this.updateFavorite(recipe);
+    recipe.favorite = !recipe.favorite;
+  }
+
+  updateFavorite(recipe: Recipe) {
+    if (!recipe.favorite) {
+      this.http.post('api/favorite', { recipeId: recipe.id, userId: this.user.user.id }).subscribe(_ => { });
+    } else {
+      this.http.delete(`api/favorite/${recipe.id}`).subscribe(_ => { });
+    }
+  }
+
+  deleteRecipe = (id, index) => {
     if (this.user.user.role === 'Admin') {
-      console.log('hallo');
+      const initialState = {
+        text: 'weet je zeker dat je dit recept wilt verwijderen?',
+        recipeId: id,
+        index: index,
+        homeComp: this
+      };
+      const modalRef = this.modalService.show(ConfirmPopupComponent, { initialState, class: 'modal-sm' });
+      return modalRef.content.onClose;
     } else {
-      alert('you have no permision to do this');
+      alert('je hebt geen regten om dit te doen.');
     }
   }
 
-  searchRecipe = () => {
-    if (this.term.trim() !== '') {
-      const recipe: Recipe[] = [];
-      this.backup.forEach(element => {
-        if (element.name.replace(/\s/g, '').toLowerCase().includes(this.term.toLowerCase().replace(/\s/g, ''))) {
-          recipe.push(element);
-        }
-      });
-      this.recipes = recipe;
-    } else {
-      this.recipes = this.backup;
-    }
+  updateRecipe(recipe: Recipe): void {
+    const initialState = {
+      recipe: recipe,
+      homeComp: this
+    };
+    const modalRef = this.modalService.show(InputPopupComponent, { initialState, class: 'modal-lg' });
+    return modalRef.content.onClose;
   }
 
 }
 
-interface Recipe {
-  name: string;
-  requester: string;
-  persons: string;
-  id: number;
-  ingredients: Ingredients[];
-  links: any[];
-}
-
-interface Ingredients {
-  id: number;
-  recipeId: number;
-  ingredient: string;
-}

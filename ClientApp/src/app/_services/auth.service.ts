@@ -37,7 +37,6 @@ export class AuthService {
 
   /** POST ShopPortalLogonRequest to get ShopPortalLogon */
   private getMijnReceptenLogon(logonRequest: MijnReceptenLogonRequest): Observable<MijnReceptenLogon> {
-    console.log(this.baseUrl);
     return this.http.post<MijnReceptenLogon>(this.baseUrl + 'auth/login', logonRequest)
       .pipe(
         mergeMap((logon: MijnReceptenLogon) => {
@@ -49,9 +48,7 @@ export class AuthService {
   }
   public getCurrentLogon(): Observable<MijnReceptenLogon> {
     const now = new Date();
-    console.log(now);
     const expDate = new Date(new Date(1970, 0, 1).setSeconds(+this.currentLogon.user.exp));
-    console.log(expDate > now);
     if (this.currentLogon && expDate > now) {
       return of(this.currentLogon);
     } else if (this.currentLogon) {
@@ -61,7 +58,6 @@ export class AuthService {
     }
   }
   public getNewLogon(): Observable<MijnReceptenLogon> {
-    console.log(this.currentLogon);
     const request = new MijnReceptenLogonRequest(
       this.currentLogon.user.email,
       this.currentLogon.user.password,
@@ -100,7 +96,6 @@ export class AuthService {
   }
 
   private updateCookie(logon: MijnReceptenLogon) {
-    console.log(logon);
     let data = this.getCookieList();
     const credentials = new Credentials(logon.user.email, logon.user.password, false);
     data = data.filter(cred => !(cred.Username === credentials.Username && cred.Password === credentials.Password));
@@ -111,7 +106,6 @@ export class AuthService {
       this.removeCookieList();
     }
     this.saveCookieList(data);
-    console.log(localStorage.getItem('currentLogon'));
   }
 
   public doLogin(): void {
@@ -126,7 +120,6 @@ export class AuthService {
           .subscribe(
             (logon: MijnReceptenLogon) => {
               if (logon) {
-                console.log(logon);
                 this.updateCookie(logon);
                 this.loginBusy = false;
                 this.router.navigateByUrl('/');

@@ -11,6 +11,7 @@ namespace mijn_recepten.Contexts
         public DbSet<Link> links { get; set; }
         public DbSet<Ingredient> ingredients { get; set; }
         public DbSet<User> users { get; set; }
+        public DbSet<Favorite> favorites { get; set; }
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
         }
