@@ -1,7 +1,7 @@
 namespace mijn_recepten.Models.DB {
     public class Link {
-        public int id {get; set;}
-        public int recipeId {get; set;}
-        public string link {get; set;}
+        public int Id {get; set;}
+        public int RecipeId {get; set;}
+        public string Name {get; set;}
     }
 }

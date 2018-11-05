@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace mijn_recepten.Models.DB {
     public class Favorite {
-        public int id {get; set;}
-        public int userId {get; set;}
-        public int recipeId {get; set;}
+        public int Id {get; set;}
+        public int UserId {get; set;}
+        public int RecipeId {get; set;}
 
     }
 }

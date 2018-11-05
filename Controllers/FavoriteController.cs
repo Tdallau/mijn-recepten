@@ -27,35 +27,39 @@ namespace mijn_recepten.controller
         [HttpPost]
         public ActionResult<string> Post([FromBody] NewFavorite newFavorite)
         {
-            if (newFavorite != null && (newFavorite.recipeId > 0 && newFavorite.userId  > 0))
-            {
-                var newF =  new Favorite{userId=newFavorite.userId, recipeId=newFavorite.recipeId};
-                this.__context.favorites.Add(newF);
-                this.__context.SaveChanges();
-                return Ok(newFavorite);
-            }
-            return UnprocessableEntity("error");
-            
-        }
-
-        // PUT api/values/5
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
             var userToken = token.Split(' ')[1];
             var jwttoken = new JwtSecurityToken(userToken);
-            var userId = Int32.Parse(jwttoken.Claims.Where(x=> x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
+            var userId = Int32.Parse(jwttoken.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault()?.Value);
 
-            var favorite = this.__context.favorites.FirstOrDefault(x => x.recipeId == id && x.userId == userId);
-            if (favorite != null)
+
+            if (newFavorite != null && (newFavorite.RecipeId > 0))
             {
-                this.__context.favorites.Remove(favorite);
-                this.__context.SaveChanges();
+                var favorite = this.checkIfFavoriteExist(userId, newFavorite.RecipeId);
+                if (favorite == null)
+                {
+                    var newF = new Favorite { UserId = userId, RecipeId = newFavorite.RecipeId };
+                    this.__context.Favorites.Add(newF);
+                    this.__context.SaveChanges();
+                    return Ok(newFavorite);
+                }
+                else
+                {
+                    this.__context.Favorites.Remove(favorite);
+                    this.__context.SaveChanges();
+                    return Ok();
+                }
 
-                return Ok();
             }
-            return UnprocessableEntity();
+            return UnprocessableEntity("error");
         }
+        private Favorite checkIfFavoriteExist(int userId, int recipeId)
+        {
+            var query = from favorite in this.__context.Favorites
+                        where favorite.UserId == userId && favorite.RecipeId == recipeId
+                        select favorite;
+            return query.FirstOrDefault();
+        }
+
     }
 }

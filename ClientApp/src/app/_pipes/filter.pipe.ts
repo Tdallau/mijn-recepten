@@ -18,7 +18,7 @@ export class FilterPipe implements PipeTransform {
     return items.filter(recipe => {
       let ok = false;
       if (recipe) {
-        if (this.containsFilter([ recipe.requester, recipe.name ], filterString)) { ok = true; }
+        if (this.containsFilter([ recipe.requester, recipe.name ], filterString.toLowerCase())) { ok = true; }
       }
       return ok;
     });

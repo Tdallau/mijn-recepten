@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MainService } from 'src/app/_services/main.service';
+import { RecipeService } from 'src/app/_services/recipe.service';
 
 @Component({
-  selector: 'app-confirm-popup',
-  templateUrl: './confirm-popup.component.html',
-  styleUrls: ['./confirm-popup.component.css']
+  selector: 'app-confirm',
+  templateUrl: './confirm.component.html',
+  styleUrls: ['./confirm.component.css']
 })
-export class ConfirmPopupComponent implements OnInit {
+export class ConfirmComponent implements OnInit {
   text: string;
   recipeId: number;
   index: number;
@@ -16,20 +17,20 @@ export class ConfirmPopupComponent implements OnInit {
 
   public onClose: Subject<boolean>;
 
-  constructor(private bsModalRef: BsModalRef, private mainService: MainService) { }
+  constructor(private bsModalRef: BsModalRef, private recipeService: RecipeService) { }
 
   ngOnInit() {
     this.onClose = new Subject();
   }
 
-  public confirm() {
+  public confirm(): void {
     this.onClose.next(true);
-    this.mainService.deleteRecipe(this.recipeId);
+    this.recipeService.deleteRecipe(this.recipeId);
     this.homeComp.recipes.splice(this.index, 1);
     this.bsModalRef.hide();
   }
 
-  public decline() {
+  public decline(): void {
     this.onClose.next(false);
     this.bsModalRef.hide();
   }

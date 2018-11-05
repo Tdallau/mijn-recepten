@@ -1,4 +1,5 @@
 import { Ingredients } from './ingredients';
+import { Links } from './links';
 
 export class Recipe {
     name: string;
@@ -6,6 +7,7 @@ export class Recipe {
     persons: string;
     id: number;
     ingredients: Ingredients[];
-    links: any[];
+    links: Links[];
     favorite: boolean;
+    videoId: string;
 }

@@ -25,14 +25,14 @@ namespace mijn_recepten.Services
         public User CheckEmailPasswordCombination(string email, string password)
         {
 
-            var curUser = (from user in this.__context.users
-                         where user.email == email
+            var curUser = (from user in this.__context.Users
+                         where user.Email == email
                          select user).FirstOrDefault();
             try
             {
                 if(curUser != null) {
-                    var passwordHash = this.passwordServices.generatateHash(password, curUser.passwordSalt);
-                    if(curUser.passwordHash == passwordHash) {
+                    var passwordHash = this.passwordServices.generatateHash(password, curUser.PasswordSalt);
+                    if(curUser.PasswordHash == passwordHash) {
                         return curUser;
                     }
                 }

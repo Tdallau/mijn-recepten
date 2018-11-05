@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavbarService } from '../_services/navbar.service';
+import { RecipeService } from '../_services/recipe.service';
+import { Recipe } from '../_models/common/recipe';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -23,10 +25,10 @@ export class RecipeComponent implements OnInit {
   public recipe: Recipe;
   public url: string;
 
-  constructor(public nav: NavbarService, private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(public nav: NavbarService, private recipeService: RecipeService, private route: ActivatedRoute) {
     const id = this.route.snapshot.paramMap.get('id');
-    http.get<Recipe>(baseUrl + `api/recipe/${id}`).subscribe(result => {
-      this.recipe = result;
+    recipeService.getRecipe(id).subscribe((res: Recipe) => {
+      this.recipe = res;
       this.url = `https://www.youtube.com/embed/${this.recipe.videoId}`;
     }, error => console.error(error));
   }
@@ -35,20 +37,4 @@ export class RecipeComponent implements OnInit {
     this.nav.show();
   }
 
-}
-
-interface Recipe {
-  name: string;
-  requester: string;
-  persons: string;
-  id: number;
-  ingredients: Ingredients[];
-  links: any[];
-  videoId: string;
-}
-
-interface Ingredients {
-  id: number;
-  recipeId: number;
-  ingredient: string;
 }

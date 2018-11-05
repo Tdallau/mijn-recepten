@@ -18,104 +18,104 @@ namespace mijn_recepten.Migrations
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Favorite", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("RecipeId");
 
-                    b.Property<int>("userId");
+                    b.Property<int>("UserId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("favorites");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Ingredient", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ingredient");
+                    b.Property<string>("Name");
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("RecipeId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("recipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("ingredients");
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Link", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("link");
+                    b.Property<string>("Name");
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("RecipeId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("recipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("links");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Recipe", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("name");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("persons");
+                    b.Property<string>("Persons");
 
-                    b.Property<string>("requester");
+                    b.Property<string>("Requester");
 
-                    b.Property<string>("videoId");
+                    b.Property<string>("VideoId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("recipes");
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.User", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("email");
+                    b.Property<string>("Email");
 
-                    b.Property<string>("name");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("passwordHash");
+                    b.Property<string>("PasswordHash");
 
-                    b.Property<string>("passwordSalt");
+                    b.Property<string>("PasswordSalt");
 
-                    b.Property<string>("role");
+                    b.Property<string>("Role");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("email")
+                    b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Ingredient", b =>
                 {
                     b.HasOne("mijn_recepten.Models.DB.Recipe")
-                        .WithMany("ingredients")
-                        .HasForeignKey("recipeId")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Link", b =>
                 {
                     b.HasOne("mijn_recepten.Models.DB.Recipe")
-                        .WithMany("links")
-                        .HasForeignKey("recipeId")
+                        .WithMany("Links")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

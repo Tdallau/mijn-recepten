@@ -33,7 +33,7 @@ namespace mijn_recepten.Controllers
             var user = this.authServices.CheckEmailPasswordCombination(loginData.Email, loginData.Password);
             if (user != null)
             {
-                var responseUser = new UserData(){Name = user.name, Id = user.id, Email=user.email, Role = user.role};
+                var responseUser = new UserData(){Name = user.Name, Id = user.Id, Email=user.Email, Role = user.Role};
                 var token = responseUser.ToToken();
                 var userData = UserData.FromToken(token);
                 var returnType = new ResponseData(token, userData);
@@ -48,8 +48,8 @@ namespace mijn_recepten.Controllers
             try
             {
                 var salt = this.passwordServices.generateSalt();
-                var passwordHash = this.passwordServices.generatateHash(user.passwordHash, salt);
-                var newUser = new User() { name = user.name, email = user.email, role = user.role, passwordHash = passwordHash, passwordSalt= salt};
+                var passwordHash = this.passwordServices.generatateHash(user.PasswordHash, salt);
+                var newUser = new User() { Name = user.Name, Email = user.Email, Role = user.Role, PasswordHash = passwordHash, PasswordSalt= salt};
                 this.__context.Add(newUser);
                 this.__context.SaveChanges();
                 return Ok(user);

@@ -24,7 +24,7 @@ namespace mijn_recepten.controller
         [HttpPost]
         public ActionResult<string> Post([FromBody] Ingredient ingredient)
         {
-            if (ingredient != null && (ingredient.ingredient != null && ingredient.ingredient != ""))
+            if (ingredient != null && (ingredient.Name != null && ingredient.Name != ""))
             {
 
                 this.__context.Add(ingredient);
@@ -38,17 +38,17 @@ namespace mijn_recepten.controller
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Recipe UpdatedRecipe)
         {
-            if (UpdatedRecipe != null && (UpdatedRecipe.name != null && UpdatedRecipe.name != "") &&
-                                 (UpdatedRecipe.requester != null && UpdatedRecipe.requester != ""))
+            if (UpdatedRecipe != null && (UpdatedRecipe.Name != null && UpdatedRecipe.Name != "") &&
+                                 (UpdatedRecipe.Requester != null && UpdatedRecipe.Requester != ""))
             {
 
-                var recipe = (from recipes in this.__context.recipes
-                              where recipes.id == id
+                var recipe = (from recipes in this.__context.Recipes
+                              where recipes.Id == id
                               select recipes).FirstOrDefault();
 
-                recipe.name = UpdatedRecipe.name;
-                recipe.persons = UpdatedRecipe.persons;
-                recipe.requester = UpdatedRecipe.requester;
+                recipe.Name = UpdatedRecipe.Name;
+                recipe.Persons = UpdatedRecipe.Persons;
+                recipe.Requester = UpdatedRecipe.Requester;
 
                 this.__context.Update(recipe);
                 this.__context.SaveChanges();
@@ -62,10 +62,10 @@ namespace mijn_recepten.controller
         public IActionResult Delete(int id)
         {
 
-            var recipe = this.__context.recipes.FirstOrDefault(x => x.id == id);
+            var recipe = this.__context.Recipes.FirstOrDefault(x => x.Id == id);
             if (recipe != null)
             {
-                this.__context.recipes.Remove(recipe);
+                this.__context.Recipes.Remove(recipe);
                 this.__context.SaveChanges();
 
                 return Ok();

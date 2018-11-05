@@ -10,12 +10,12 @@
   <p>{{recipe.persons}}</p>
   <b>Ingredienten: </b>
   <div *ngFor="let ingredient of recipe.ingredients">
-    {{ingredient.ingredient}}
+    {{ingredient.name}}
   </div>
   <div *ngIf="recipe.links.length != 0" class="links">
     <b>Linkjes: </b>
     <div *ngFor="let link of recipe.links">
-      {{link.link}}
+      {{link.name}}
     </div>
   </div>
 </div>

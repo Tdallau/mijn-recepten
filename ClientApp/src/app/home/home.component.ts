@@ -6,7 +6,8 @@ import { NavbarService } from '../_services/navbar.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Recipe } from '../_models/common/recipe';
 import { InputPopupComponent } from '../_common/input-popup/input-popup.component';
-import { ConfirmPopupComponent } from '../_Common/confirm-popup/confirm-popup.component';
+import { ConfirmComponent } from '../_common/confirm-popup/confirm.component';
+import { RecipeService } from '../_services/recipe.service';
 
 
 @Component({
@@ -22,10 +23,10 @@ export class HomeComponent implements OnInit {
   public sortFields = ['-favorite', 'name'];
   trigger = false;
 
-  constructor(public nav: NavbarService, private modalService: BsModalService, private http: HttpClient,
-              @Inject('BASE_URL') baseUrl: string, private router: Router) {
+  constructor(public nav: NavbarService, private modalService: BsModalService, private recipeService: RecipeService,
+    private router: Router) {
     if (this.user === null) { this.router.navigateByUrl('/login'); } else {
-      this.http.get<Recipe[]>(baseUrl + 'api/recipe').subscribe(result => {
+      recipeService.getRecipes().subscribe(result => {
         result.map(x => {
           x.name = x.name.toLowerCase();
         });
@@ -45,16 +46,8 @@ export class HomeComponent implements OnInit {
 
   setFavourite(recipe: Recipe): void {
     this.trigger = !this.trigger;
-    this.updateFavorite(recipe);
+    this.recipeService.updateFavorite(recipe);
     recipe.favorite = !recipe.favorite;
-  }
-
-  updateFavorite(recipe: Recipe) {
-    if (!recipe.favorite) {
-      this.http.post('api/favorite', { recipeId: recipe.id, userId: this.user.user.id }).subscribe(_ => { });
-    } else {
-      this.http.delete(`api/favorite/${recipe.id}`).subscribe(_ => { });
-    }
   }
 
   deleteRecipe = (id, index) => {
@@ -65,7 +58,7 @@ export class HomeComponent implements OnInit {
         index: index,
         homeComp: this
       };
-      const modalRef = this.modalService.show(ConfirmPopupComponent, { initialState, class: 'modal-sm' });
+      const modalRef = this.modalService.show(ConfirmComponent, { initialState, class: 'modal-sm' });
       return modalRef.content.onClose;
     } else {
       alert('je hebt geen regten om dit te doen.');

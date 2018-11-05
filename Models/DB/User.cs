@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace mijn_recepten.Models.DB {
     public class User {
-        public int id {get; set;}
-        public string name {get; set;}
-        public string email {get; set;}
-        public string passwordHash {get; set;}
-        public string passwordSalt {get; set;}
-        public string role {get; set;}
+        public int Id {get; set;}
+        public string Name {get; set;}
+        public string Email {get; set;}
+        public string PasswordHash {get; set;}
+        public string PasswordSalt {get; set;}
+        public string Role {get; set;}
     }
 }

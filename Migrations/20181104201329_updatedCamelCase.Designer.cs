@@ -8,8 +8,8 @@ using mijn_recepten.Contexts;
 namespace mijn_recepten.Migrations
 {
     [DbContext(typeof(MainContext))]
-    [Migration("20181101162157_favorite")]
-    partial class favorite
+    [Migration("20181104201329_updatedCamelCase")]
+    partial class updatedCamelCase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,108 +20,104 @@ namespace mijn_recepten.Migrations
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Favorite", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("favorite");
+                    b.Property<int>("RecipeId");
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("UserId");
 
-                    b.Property<int>("userId");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
-
-                    b.ToTable("favorites");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Ingredient", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ingredient");
+                    b.Property<string>("Name");
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("RecipeId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("recipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("ingredients");
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Link", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("link");
+                    b.Property<string>("Name");
 
-                    b.Property<int>("recipeId");
+                    b.Property<int>("RecipeId");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("recipeId");
+                    b.HasIndex("RecipeId");
 
-                    b.ToTable("links");
+                    b.ToTable("Links");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Recipe", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("favorite");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("name");
+                    b.Property<string>("Persons");
 
-                    b.Property<string>("persons");
+                    b.Property<string>("Requester");
 
-                    b.Property<string>("requester");
+                    b.Property<string>("VideoId");
 
-                    b.Property<string>("videoId");
+                    b.HasKey("Id");
 
-                    b.HasKey("id");
-
-                    b.ToTable("recipes");
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.User", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("email");
+                    b.Property<string>("Email");
 
-                    b.Property<string>("name");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("passwordHash");
+                    b.Property<string>("PasswordHash");
 
-                    b.Property<string>("passwordSalt");
+                    b.Property<string>("PasswordSalt");
 
-                    b.Property<string>("role");
+                    b.Property<string>("Role");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("email")
+                    b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Ingredient", b =>
                 {
                     b.HasOne("mijn_recepten.Models.DB.Recipe")
-                        .WithMany("ingredients")
-                        .HasForeignKey("recipeId")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("mijn_recepten.Models.DB.Link", b =>
                 {
                     b.HasOne("mijn_recepten.Models.DB.Recipe")
-                        .WithMany("links")
-                        .HasForeignKey("recipeId")
+                        .WithMany("Links")
+                        .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

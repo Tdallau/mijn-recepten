@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { RecipeComponent } from './recipe/recipe.component';
+import { InputPopupComponent } from './_common/input-popup/input-popup.component';
+import { ConfirmComponent } from './_common/confirm-popup/confirm.component';
 
 import { SafePipe } from './recipe/recipe.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
@@ -27,8 +29,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { FilterPipe } from './_pipes/filter.pipe';
 import { SortPipe } from './_pipes/sort.pipe';
-import { InputPopupComponent } from './_common/input-popup/input-popup.component';
-import { ConfirmPopupComponent } from './_Common/confirm-popup/confirm-popup.component';
+
 
 library.add(fas, far);
 library.add(faStar);
@@ -46,7 +47,7 @@ library.add(faEdit);
     LoginComponent,
     RegisterComponent,
     InputPopupComponent,
-    ConfirmPopupComponent,
+    ConfirmComponent,
     FilterPipe,
     SortPipe,
   ],
@@ -72,7 +73,7 @@ library.add(faEdit);
   bootstrap: [AppComponent],
   entryComponents: [
     InputPopupComponent,
-    ConfirmPopupComponent
+    ConfirmComponent
   ]
 })
 export class AppModule { }

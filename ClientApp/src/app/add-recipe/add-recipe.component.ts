@@ -32,7 +32,6 @@ export class AddRecipeComponent implements OnInit {
     const self = this;
     Tesseract
       .recognize(file)
-      // .progress(console.log)
       .then((result: any) => {
         const res = result.text.split(/\r?\n/);
 
@@ -41,10 +40,8 @@ export class AddRecipeComponent implements OnInit {
             this.recipe.ingredients.push(res[i]);
           }
         }
-        // alert('de ingredienten zijn succesvol geupload!!!');
         this.recipe.persons = res[0];
         this.spinner.hide();
-        // self.setState({ ingredients });
       })
       .catch(console.error);
   }
