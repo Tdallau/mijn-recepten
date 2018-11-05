@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
         result.map(x => {
           x.name = x.name.toLowerCase();
         });
+        localStorage.removeItem('recipes');
+        localStorage.setItem('recipes', JSON.stringify(result));
         this.recipes = result;
         // this.spinner.hide();
       });
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.nav.show();
+    this.recipes = JSON.parse(localStorage.getItem('recipes')) as Recipe[];
   }
 
   btnClick(recipe: Recipe): void {

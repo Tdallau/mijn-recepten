@@ -26,6 +26,7 @@ export class AuthService {
 
   clear(): void {
     localStorage.removeItem('currentLogon');
+    localStorage.removeItem('recipes');
     this.currentLogon = null;
     // this.loginData = new Credentials('', '', false);
   }

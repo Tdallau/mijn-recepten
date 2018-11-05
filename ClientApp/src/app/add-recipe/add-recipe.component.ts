@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 
 import * as Tesseract from 'tesseract.js';
+import { Links } from '../_models/common/links';
+import { NavbarService } from '../_services/navbar.service';
+import { RecipeService } from '../_services/recipe.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -13,16 +14,11 @@ import * as Tesseract from 'tesseract.js';
 })
 export class AddRecipeComponent implements OnInit {
 
-  public recipe = {
-    name: '',
-    requester: '',
-    persons: '',
-    ingredients: [],
-    links: [],
-    videoId: ''
-  };
+  constructor(private spinner: NgxSpinnerService, public nav: NavbarService, public recipeService: RecipeService) {
+  }
 
-  constructor(private spinner: NgxSpinnerService, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  ngOnInit() {
+    this.nav.show();
   }
 
   public fileUploadImg(files) {
@@ -37,10 +33,10 @@ export class AddRecipeComponent implements OnInit {
 
         for (let i = 1; i < res.length; i++) {
           if (res[i] !== '') {
-            this.recipe.ingredients.push(res[i]);
+            this.recipeService.recipe.ingredients.push(res[i]);
           }
         }
-        this.recipe.persons = res[0];
+        this.recipeService.recipe.persons = res[0];
         this.spinner.hide();
       })
       .catch(console.error);
@@ -56,37 +52,15 @@ export class AddRecipeComponent implements OnInit {
       const split: string[] = res.split(/\r?\n/);
       for (const link of split) {
         if (link.includes('www')) {
-          self.recipe.links.push(link);
+          const l: Links = {
+            id: null,
+            recipeId: null,
+            name: link
+          };
+          self.recipeService.recipe.links.push(l);
         }
       }
     };
-  }
-  public onSubmit(f: NgForm) {
-    this.http.post(`${this.baseUrl}api/recipe`, {
-      name: this.recipe.name,
-      requester: this.recipe.requester,
-      videoId: this.recipe.videoId,
-      persons: this.recipe.persons
-    }).subscribe((result: { id: number }) => {
-      this.recipe.ingredients.forEach(res => {
-        const body = {
-          recipeId: result.id,
-          ingredient: res
-        };
-        this.http.post(`${this.baseUrl}api/ingredient`, body).subscribe(_ => {
-        });
-      });
-      this.recipe.links.forEach(res => {
-        this.http.post(`${this.baseUrl}api/link`, { recipeId: result.id, link: res }).subscribe(_ => {
-        });
-      });
-      f.reset();
-    });
-  }
-
-
-
-  ngOnInit() {
   }
 
 }
