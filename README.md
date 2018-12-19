@@ -1,2 +1,2 @@
-# mijn-recepten-new
-reposetory mijn recepten Angular
+# mijn-recepten
+reposetory mijn recepten
