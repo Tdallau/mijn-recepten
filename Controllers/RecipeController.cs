@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 namespace mijn_recepten.Controllers
 {
-    [EnableCors("MyPolicy")]
+    [EnableCors("SiteCorsPolicy")]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

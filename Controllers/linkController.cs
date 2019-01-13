@@ -9,7 +9,7 @@ using mijn_recepten.Models.DB;
 
 namespace mijn_recepten.Controllers
 {
-    [EnableCors("MyPolicy")]
+    [EnableCors("SiteCorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LinkController : ControllerBase

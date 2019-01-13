@@ -15,13 +15,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0-preview3-35497" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0-preview3-35497" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.2.0-preview3-35497" />
   </ItemGroup>
 
   <ItemGroup>

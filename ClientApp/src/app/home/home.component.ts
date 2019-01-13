@@ -8,6 +8,7 @@ import { Recipe } from '../_models/common/recipe';
 import { InputPopupComponent } from '../_common/input-popup/input-popup.component';
 import { ConfirmComponent } from '../_common/confirm-popup/confirm.component';
 import { RecipeService } from '../_services/recipe.service';
+import { MainService } from '../_services/main.service';
 
 
 @Component({
@@ -24,8 +25,8 @@ export class HomeComponent implements OnInit {
   trigger = false;
 
   constructor(public nav: NavbarService, private modalService: BsModalService, private recipeService: RecipeService,
-    private router: Router) {
-    if (this.user === null) { this.router.navigateByUrl('/login'); } else {
+    private router: Router, private mainServ: MainService) {
+    this.mainServ.checkIfLogedIn();
       recipeService.getRecipes().subscribe(result => {
         result.map(x => {
           x.name = x.name.toLowerCase();
@@ -35,7 +36,6 @@ export class HomeComponent implements OnInit {
         this.recipes = result;
         // this.spinner.hide();
       });
-    }
   }
 
   ngOnInit() {

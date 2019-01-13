@@ -26,6 +26,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log(request)
     if (request.url.endsWith('/auth/login') || request.url.endsWith('/auth/register')) {
       return this.handleIntercept(null, request, next, 1);
     }

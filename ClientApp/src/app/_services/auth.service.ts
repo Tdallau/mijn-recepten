@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { MijnReceptenLogonRequest } from '../_models/logon/mijn.recepten.logon.request';
 import { Observable, of } from 'rxjs';
@@ -9,6 +9,7 @@ import { Credentials } from '../_models/logon/credentinals';
 import { MijnReceptenRegister } from '../_models/logon/mijn.recepten.register';
 import { Router } from '@angular/router';
 import { User } from '../_models/logon/user';
+import { apiUrl } from '../_helpers/config';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,13 @@ export class AuthService {
   loginBusy: boolean;
   loginData: Credentials = new Credentials('', '', false);
   registerData: MijnReceptenRegister = new MijnReceptenRegister('', '', '');
+  baseUrl: string;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,
+  constructor(private http: HttpClient, @Inject('BASE_URL') private Url: string,
               private router: Router) {
     this.currentLogon = JSON.parse(localStorage.getItem('currentLogon')) as MijnReceptenLogon;
+    this.baseUrl = Url;
+
   }
 
   clear(): void {

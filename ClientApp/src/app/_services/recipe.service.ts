@@ -1,20 +1,22 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../_models/common/recipe';
 import { Observable } from 'rxjs';
-import { User } from '../_models/logon/user';
-import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { NgForm } from '@angular/forms';
+import { apiUrl } from '../_helpers/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  public user = JSON.parse(localStorage.getItem('currentLogon')) as MijnReceptenLogon;
-  public recipe: Recipe = new Recipe('', this.user.user.name, '', [], [], '');
+  public user = JSON.parse(localStorage.getItem('currentLogon'));
+  public recipe: Recipe = new Recipe('', this.user ? this.user.user.name : 'No user' , '', [], [], '');
+  public baseUrl: string;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') private Url: string) {
+    this.baseUrl =  Url;
+  }
 
   // request for updating a recipe
   public updateRecipe(id: number, recipe: Recipe): void {

@@ -11,7 +11,7 @@ using mijn_recepten.Models.DB;
 
 namespace mijn_recepten.Controllers
 {
-    [EnableCors("MyPolicy")]
+    [EnableCors("SiteCorsPolicy")]
     [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase

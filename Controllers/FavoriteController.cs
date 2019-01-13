@@ -12,7 +12,7 @@ using mijn_recepten.Models;
 
 namespace mijn_recepten.controller
 {
-    [EnableCors("MyPolicy")]
+    [EnableCors("SiteCorsPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class FavoriteController : ControllerBase

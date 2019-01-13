@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using mijn_recepten.Contexts;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace mijn_recepten
 {
@@ -27,21 +28,26 @@ namespace mijn_recepten
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-            }));
-            services.AddDbContext<MainContext> (
+            services.AddDbContext<MainContext>(
                  opt => opt.UseMySql(ConfigurationManager.AppSetting.GetConnectionString("DefaultConnection"))
             );
 
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin(); // For anyone access.
+            //corsBuilder.WithOrigins("http://localhost:5002"); // for a specific url. Don't add a forward slash on the end!
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
+            });
+
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = "Jwt";  
-                options.DefaultChallengeScheme = "Jwt";              
+                options.DefaultAuthenticateScheme = "Jwt";
+                options.DefaultChallengeScheme = "Jwt";
             }).AddJwtBearer("Jwt", options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -50,10 +56,10 @@ namespace mijn_recepten
                     //ValidAudience = "the audience you want to validate",
                     ValidateIssuer = false,
                     //ValidIssuer = "the isser you want to validate",
-                    
+
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["SuperSecretKey"])), 
-                    
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationManager.AppSetting["SuperSecretKey"])),
+
                     ValidateLifetime = true, //validate the expiration and not before values in the token
 
                     ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
@@ -81,11 +87,10 @@ namespace mijn_recepten
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
-            // app.UseCors("MyPolicy");
             app.UseSpaStaticFiles();
-
+            app.UseCors("SiteCorsPolicy");
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
