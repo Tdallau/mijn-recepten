@@ -233,3 +233,5 @@ _Pvt_Extensions
 appsettings.json
 
 /out
+
+.DS_Store
