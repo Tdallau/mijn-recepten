@@ -126,7 +126,7 @@ export class AuthService {
               if (logon) {
                 this.updateCookie(logon);
                 this.loginBusy = false;
-                this.router.navigateByUrl('/');
+                this.router.navigate(['/']);
               }
             },
             (err: HttpErrorResponse) => {
