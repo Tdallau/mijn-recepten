@@ -9,7 +9,6 @@ import { Credentials } from '../_models/logon/credentinals';
 import { MijnReceptenRegister } from '../_models/logon/mijn.recepten.register';
 import { Router } from '@angular/router';
 import { User } from '../_models/logon/user';
-import { apiUrl } from '../_helpers/config';
 
 @Injectable({
   providedIn: 'root'
