@@ -11,6 +11,7 @@ namespace mijn_recepten
         {
             AppSetting = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.production.json")
                     .AddJsonFile("appsettings.json")
                     .AddEnvironmentVariables()
                     .Build();
