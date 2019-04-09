@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { Router } from '@angular/router';
+import { LoggerService } from './logger.service';
 
 
 @Injectable({
@@ -15,11 +16,5 @@ export class MainService {
       return !input;
     }
     return input;
-  }
-  public checkIfLogedIn() {
-    console.log(localStorage.getItem('currentLogon'));
-    if (!this.user) {
-      this.router.navigateByUrl('/login');
-    }
   }
 }

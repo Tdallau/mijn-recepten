@@ -29,6 +29,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { FilterPipe } from './_pipes/filter.pipe';
 import { SortPipe } from './_pipes/sort.pipe';
+import { AuthGuard } from './_guards/auth.guard';
 
 
 library.add(fas, far);
@@ -56,12 +57,12 @@ library.add(faEdit);
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'recipe/:id', component: RecipeComponent },
-      { path: 'add/recipe', component: AddRecipeComponent },
-      { path: 'login', component: LoginComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+      { path: 'recipe/:id', component: RecipeComponent, canActivate: [AuthGuard] },
+      { path: 'add/recipe', component: AddRecipeComponent, canActivate: [AuthGuard] },
+      { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
-      { path: '**', redirectTo: '/' }
+      { path: '**', redirectTo: '/login' }
     ]),
     ModalModule.forRoot(),
     NgxSpinnerModule,
@@ -69,6 +70,7 @@ library.add(faEdit);
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
+    AuthGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [

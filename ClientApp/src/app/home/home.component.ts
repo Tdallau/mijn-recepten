@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { NavbarService } from '../_services/navbar.service';
@@ -14,7 +13,7 @@ import { MainService } from '../_services/main.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 
 export class HomeComponent implements OnInit {
@@ -25,9 +24,9 @@ export class HomeComponent implements OnInit {
   trigger = false;
 
   constructor(public nav: NavbarService, private modalService: BsModalService, private recipeService: RecipeService,
-    private router: Router, private mainServ: MainService) {
-    this.mainServ.checkIfLogedIn();
-      recipeService.getRecipes().subscribe(result => {
+              private router: Router, private mainServ: MainService) {
+    // this.mainServ.checkIfLogedIn();
+    recipeService.getRecipes().subscribe(result => {
         result.map(x => {
           x.name = x.name.toLowerCase();
         });

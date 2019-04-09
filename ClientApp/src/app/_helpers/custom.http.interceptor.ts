@@ -16,6 +16,7 @@ import {
 import { AuthService } from '../_services/auth.service';
 import { MijnReceptenLogon } from '../_models/logon/mijn.recepten.logon';
 import { Router } from '@angular/router';
+import { LoggerService } from '../_services/logger.service';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(request)
+    LoggerService.Log(request);
     if (request.url.endsWith('/auth/login') || request.url.endsWith('/auth/register')) {
       return this.handleIntercept(null, request, next, 1);
     }

@@ -6,6 +6,7 @@ import * as Tesseract from 'tesseract.js';
 import { Links } from '../_models/common/links';
 import { NavbarService } from '../_services/navbar.service';
 import { RecipeService } from '../_services/recipe.service';
+import { LoggerService } from '../_services/logger.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -23,7 +24,7 @@ export class AddRecipeComponent implements OnInit {
 
   public fileUploadImg(files) {
     const file = files[0];
-    console.log(file);
+    LoggerService.Log(file);
     this.spinner.show();
     const self = this;
     Tesseract
@@ -47,7 +48,7 @@ export class AddRecipeComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsText(file);
     const self = this;
-    reader.onload = function () {
+    reader.onload = () => {
       const res = reader.result.toString();
       const split: string[] = res.split(/\r?\n/);
       for (const link of split) {

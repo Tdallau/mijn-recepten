@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Recipe } from '../_models/common/recipe';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { apiUrl } from '../_helpers/config';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +20,13 @@ export class RecipeService {
 
   // request for updating a recipe
   public updateRecipe(id: number, recipe: Recipe): void {
-    console.log('updateRecipe');
+    LoggerService.Log('updateRecipe');
     this.http.put(`api/recipe/${id}`, recipe).subscribe();
   }
 
   // request for delete a recipe
   public deleteRecipe(id: number): void {
-    console.log('delete recipe');
+    LoggerService.Log('delete recipe');
     this.http.delete(`api/recipe/${id}`).subscribe();
   }
 
