@@ -3,10 +3,24 @@ import { isDevMode } from '@angular/core';
 export class LoggerService {
 
   public static Log(text: any) {
-    const dev = isDevMode();
-    console.log(dev);
-    if (dev) {
+    if (isDevMode()) {
       console.log(text);
+    }
+  }
+
+  public static Info(text: any) {
+    if (isDevMode()) {
+      console.info(text);
+    }
+  }
+  public static Time(text: any) {
+    if (isDevMode()) {
+      console.time(text);
+    }
+  }
+  public static TimeEnd(text: any) {
+    if (isDevMode()) {
+      console.timeEnd(text);
     }
   }
 }
