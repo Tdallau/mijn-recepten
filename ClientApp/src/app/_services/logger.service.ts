@@ -3,7 +3,9 @@ import { isDevMode } from '@angular/core';
 export class LoggerService {
 
   public static Log(text: any) {
-    if (isDevMode) {
+    const dev = isDevMode();
+    console.log(dev);
+    if (dev) {
       console.log(text);
     }
   }
