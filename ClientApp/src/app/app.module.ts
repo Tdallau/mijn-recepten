@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -25,17 +24,21 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { FilterPipe } from './_pipes/filter.pipe';
 import { SortPipe } from './_pipes/sort.pipe';
 import { AuthGuard } from './_guards/auth.guard';
-
+import { AdminAuthGuard } from './_guards/admin-auth.guard';
+import { AppRoutingModule } from './app-routing.module';
+import { NewRecipesComponent } from './new-recipes/new-recipes.component';
 
 library.add(fas, far);
 library.add(faStar);
 library.add(faTrash);
 library.add(faEdit);
+library.add(faSearch);
 
 @NgModule({
   declarations: [
@@ -51,31 +54,26 @@ library.add(faEdit);
     ConfirmComponent,
     FilterPipe,
     SortPipe,
+    NewRecipesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard]},
-      { path: 'recipe/:id', component: RecipeComponent, canActivate: [AuthGuard] },
-      { path: 'add/recipe', component: AddRecipeComponent, canActivate: [AuthGuard] },
-      { path: 'login', component: LoginComponent},
-      { path: 'register', component: RegisterComponent },
-      { path: '**', redirectTo: '/login' }
-    ]),
+    AppRoutingModule,
     ModalModule.forRoot(),
     NgxSpinnerModule,
     FontAwesomeModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    },
     AuthGuard
   ],
   bootstrap: [AppComponent],
-  entryComponents: [
-    InputPopupComponent,
-    ConfirmComponent
-  ]
+  entryComponents: [InputPopupComponent, ConfirmComponent]
 })
-export class AppModule { }
+export class AppModule {}

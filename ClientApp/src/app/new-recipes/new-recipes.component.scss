@@ -1,0 +1,82 @@
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+.test {
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+
+  .box {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .box-1 {
+    height: 60px;
+  }
+
+  .box-2 {
+    flex: 1;
+  }
+}
+
+.filters,
+.list {
+  border: 1px solid $primary;
+  height: calc(100vh - 90px - 60px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+}
+
+
+.title {
+  background-color: $primary;
+  color: white;
+  padding-left: 0.5rem;
+  font-size: 22px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  margin-left: -15px;
+}
+
+.group-title {
+  padding-left: 0.5rem;
+}
+
+.filter-groups-row {
+  display: flex;
+  flex: 24;
+  flex-direction: column;
+}
+
+.button-group {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.btn-custom {
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+.list-group-custom {
+  position: relative;
+  overflow: auto;
+}
+
+.list-group-item {
+  border-radius: 0px;
+  // position: relative;
+}
+
+body {
+  overflow: hidden;
+}

@@ -3,8 +3,8 @@
     <div class="container">
       <!-- <a class="navbar-brand" [routerLink]='["/"]'>Mijn recepten</a> -->
       <button class="btn btn-primary" [routerLink]='["/"]'>Mijn recepten</button>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded" (click)="toggle()">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
@@ -13,7 +13,11 @@
             <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/add/recipe"]'>recept toevoegen</a>
+            <a class="nav-link text-dark" [routerLink]='["/new-recipes"]'>Nieuwe Recepten</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/add/recipe"]' *ngIf="user.user.role === 'Admin'">recept
+              toevoegen</a>
           </li>
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
             <a class="nav-link text-dark" (click)="authService.doLogout()">logout</a>

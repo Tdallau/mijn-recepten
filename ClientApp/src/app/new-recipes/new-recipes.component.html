@@ -1,0 +1,82 @@
+<ngx-spinner type="ball-spin-clockwise" size="large"></ngx-spinner>
+
+<div class="test">
+  <div class="box box-1">
+    <div class="input-group md-form form-sm form-2 pl-0">
+      <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="term">
+      <div class="input-group-append">
+        <span class="input-group-text search" id="basic-text1">
+          <fa-icon [icon]="['fas','search']" aria-hidden="true"></fa-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="box-2">
+    <div class="row">
+      <div class="col col-md-3">
+        <div class="filters">
+          <div class="title">
+            Filters
+          </div>
+          <div class="filter-groups-row">
+            <div class="group1">
+              <b class="group-title"> Filters 1</b>
+              <ul>
+                <li class="filter">Filter 1</li>
+              </ul>
+            </div>
+            <div class="group2">
+              <b class="group-title">Filters 2</b>
+              <ul>
+                <li class="filter">Filter 2</li>
+                <li class="filter">Filter 3</li>
+              </ul>
+            </div>
+          </div>
+          <div class="button-group">
+            <Button (click)="searchRecipes()" class="btn btn-primary btn-custom">Zoek</Button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="list">
+          <div class='list-group'>
+            <div class="list-group-item active">
+              <div class="row">
+                <div class="col">
+                  <b>Naam</b>
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                  <b>Calorieën</b>
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                  <b>Gewicht</b>
+                </div>
+                <div class="col-md-1" style="text-align:center">
+                  <b>Tijd</b>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="list-group list-group-custom">
+            <div class="list-group-item list-group-item-action pointer" *ngFor="let i of hits">
+              <div class="row">
+                <div class="col">
+                  {{i.recipe.label}}
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                  {{i.recipe.calories}}
+                </div>
+                <div class="col-md-3" style="text-align:left">
+                  {{i.recipe.totalWeight}}
+                </div>
+                <div class="col-md-1" style="text-align:center">
+                  {{i.recipe.totalTime}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
