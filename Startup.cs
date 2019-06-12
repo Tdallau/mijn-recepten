@@ -29,7 +29,7 @@ namespace mijn_recepten
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
       services.AddDbContext<MainContext>(
-           opt => opt.UseNpgsql(this.Configuration.GetConnectionString("DefaultConnection"))
+           opt => opt.UseNpgsql(ConfigurationManager.AppSetting.GetConnectionString("DefaultConnection"))
       );
 
       var corsBuilder = new CorsPolicyBuilder();
