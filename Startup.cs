@@ -28,6 +28,7 @@ namespace mijn_recepten
     {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+      Console.WriteLine(ConfigurationManager.AppSetting.GetConnectionString("DefaultConnection"));
       services.AddDbContext<MainContext>(
            opt => opt.UseNpgsql(ConfigurationManager.AppSetting.GetConnectionString("DefaultConnection"))
       );
@@ -35,8 +36,8 @@ namespace mijn_recepten
       var corsBuilder = new CorsPolicyBuilder();
       corsBuilder.AllowAnyHeader();
       corsBuilder.AllowAnyMethod();
-      corsBuilder.AllowAnyOrigin(); // For anyone access.
-                                    //corsBuilder.WithOrigins("http://localhost:5002"); // for a specific url. Don't add a forward slash on the end!
+      //corsBuilder.AllowAnyOrigin(); // For anyone access.
+      corsBuilder.WithOrigins("https://localhost:5001", "https://recepten.dallau.com", "http://recepten.dallau.com:9781"); // for a specific url. Don't add a forward slash on the end!
       corsBuilder.AllowCredentials();
 
       services.AddCors(options =>
@@ -93,6 +94,7 @@ namespace mijn_recepten
       app.UseSpaStaticFiles();
       app.UseCors("SiteCorsPolicy");
       app.UseAuthentication();
+      app.UseHttpsRedirection();
       app.UseMvc(routes =>
       {
         routes.MapRoute(
